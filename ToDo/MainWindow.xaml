@@ -3,10 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:ToDo.Controls"
         xmlns:local="clr-namespace:ToDo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        WindowStyle="None"
+        BorderThickness="0"
+        AllowsTransparency="True"
+        SizeToContent="WidthAndHeight"
+        Title="MainWindow" MinWidth="300">
+    <Window.Background>
+        <SolidColorBrush Opacity="0" Color="DarkGray"/>
+    </Window.Background>
+    <StackPanel Margin="10" x:Name="InputStack"></StackPanel>
 </Window>
