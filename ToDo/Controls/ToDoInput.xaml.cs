@@ -15,14 +15,36 @@ namespace ToDo.Controls
         public string PlaceholderText
         {
             get { return (string)GetValue(PlaceholderTextProperty); }
-            set { SetValue(PlaceholderTextProperty, value);  }
+            set { SetValue(PlaceholderTextProperty, value); }
         }
+        public static readonly DependencyProperty CheckedProperty = DependencyProperty.Register(nameof(Checked), typeof(bool), typeof(ToDoInput), new PropertyMetadata(false, (o, e) => {
+            if (o is ToDoInput _this && e.NewValue is bool newVal)
+            {
+                if (newVal == true)
+                {
+                    _this.Input.IsEnabled = false;
+                    _this.Opacity = 0.8;
+                    BrushConverter bc = new BrushConverter();
+                    _this.CheckButton.Foreground = (Brush)bc.ConvertFrom("#3D3");
+                }
+                else
+                {
+                    _this.Input.IsEnabled = true;
+                    _this.Opacity = 1;
+                    _this.CheckButton.Foreground = _this.DefaultCheckColor;
+                }
+            }
+        }));
 
         public EventHandler<KeyEventArgs> InputKeyDown { get; set; }
         //public EventHandler<RoutedEventArgs> CheckClicked { get; set; }
         public EventHandler<RoutedEventArgs> RemoveClicked { get; set; }
         public int TabSize { get; set; } = 0;
-        public bool Checked { get; set; } = false;
+        public bool Checked
+        {
+            get { return (bool)GetValue(CheckedProperty); }
+            set { SetValue(CheckedProperty, value); }
+        }
 
         private Brush DefaultCheckColor { get; set; }
 
@@ -74,21 +96,7 @@ namespace ToDo.Controls
 
         private void CheckButton_Click(object sender, RoutedEventArgs e)
         {
-            //CheckClicked?.Invoke(this, e);
             Checked = !Checked;
-            if (Checked)
-            {
-                Input.IsEnabled = false;
-                Opacity = 0.8;
-                BrushConverter bc = new BrushConverter();
-                CheckButton.Foreground = (Brush)bc.ConvertFrom("#3D3");
-            }
-            else
-            {
-                Input.IsEnabled = true;
-                Opacity = 1;
-                CheckButton.Foreground = DefaultCheckColor;
-            }
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
@@ -119,6 +127,7 @@ namespace ToDo.Controls
         private void UpdateTabMargins()
         {
             var margins = Container.Margin;
+            Input.MinWidth = 400 - (30 * TabSize);
             Container.Margin = new Thickness(30 * TabSize, margins.Top, margins.Right, margins.Bottom);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using ToDo.Controls;
@@ -25,6 +26,42 @@ namespace ToDo
 
             input.PreviewKeyDown += Input_KeyDown;
             input.RemoveClicked += Input_RemoveClicked;
+
+            CloseButton.Click += CloseButton_Click;
+            MinifyButton.Click += MinifyButton_Click;
+
+            Dragger.MouseDown += Dragger_MouseDown;
+
+            MouseEnter += MainPanel_MouseEnter;
+            MouseLeave += MainPanel_MouseLeave;
+        }
+
+        private void MainPanel_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ControlGrid.Opacity = 0;
+        }
+
+        private void MainPanel_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ControlGrid.Opacity = 1;
+        }
+
+        private void Dragger_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                DragMove();
+            }
+        }
+
+        private void MinifyButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
 
         private void Input_KeyDown(object sender, KeyEventArgs e)
@@ -115,6 +152,7 @@ namespace ToDo
             newInput.PreviewKeyDown += Input_KeyDown;
             InputStack.Children.Insert(index + 1, newInput);
             Inputs.Insert(index + 1, newInput);
+            newInput.RemoveClicked += Input_RemoveClicked;
             newInput.Loaded += (_sender, _e) => { newInput.Focus(); };
         }
 

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:ToDo.Controls"
         xmlns:local="clr-namespace:ToDo"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         WindowStyle="None"
         BorderThickness="0"
@@ -12,7 +13,59 @@
         SizeToContent="WidthAndHeight"
         Title="MainWindow" MinWidth="500">
     <Window.Background>
-        <SolidColorBrush Opacity="0" Color="DarkGray"/>
+        <SolidColorBrush Opacity="0" Color="Black"/>
     </Window.Background>
-    <StackPanel Margin="10" x:Name="InputStack"></StackPanel>
+    <DockPanel>
+        <DockPanel.Background>
+            <SolidColorBrush Opacity="0.01" Color="Black"/>
+        </DockPanel.Background>
+        <StackPanel Margin="10" x:Name="InputStack" HorizontalAlignment="Stretch"></StackPanel>
+        <Grid x:Name="ControlGrid" DockPanel.Dock="Right" HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Top" Margin="0, 20, 0, 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="25" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15" />
+                <ColumnDefinition Width="15" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Grid.Row="0" x:Name="MinifyButton">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="3, 0, 0, 0"/>
+                    </Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="BorderThickness" Value="1, 1, 1, 1" />
+                        <Setter Property="BorderBrush" Value="Black" />
+                        <Setter Property="Background" Value="#333" />
+                        <Setter Property="FontSize" Value="10" />
+                    </Style>
+                </Button.Resources>
+                <fa:FontAwesome Icon="Minus" Foreground="#EEE" />
+            </Button>
+            <Button Grid.Column="1" Grid.Row="0" x:Name="CloseButton">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="0, 3, 0, 0"/>
+                    </Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="BorderThickness" Value="0, 1, 1, 1" />
+                        <Setter Property="BorderBrush" Value="Black" />
+                        <Setter Property="Background" Value="#333" />
+                        <Setter Property="FontSize" Value="10" />
+                    </Style>
+                </Button.Resources>
+                <fa:FontAwesome Icon="Times" Foreground="#EEE" />
+            </Button>
+            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 5, 0, 0" x:Name="Dragger">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Setter Property="Background" Value="#333" />
+                        <Setter Property="Cursor" Value="ScrollAll" />
+                    </Style>
+                </StackPanel.Resources>
+                <fa:FontAwesome Icon="Th" Foreground="#EEE" VerticalAlignment="Center" Padding="3" />
+            </StackPanel>
+        </Grid>
+    </DockPanel>
 </Window>
