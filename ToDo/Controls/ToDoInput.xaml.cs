@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace ToDo.Controls
 {
@@ -18,7 +19,12 @@ namespace ToDo.Controls
         }
 
         public EventHandler<KeyEventArgs> InputKeyDown { get; set; }
+        //public EventHandler<RoutedEventArgs> CheckClicked { get; set; }
+        public EventHandler<RoutedEventArgs> RemoveClicked { get; set; }
         public int TabSize { get; set; } = 0;
+        public bool Checked { get; set; } = false;
+
+        private Brush DefaultCheckColor { get; set; }
 
         private const int MAX_TAB_SIZE = 10;
 
@@ -46,6 +52,48 @@ namespace ToDo.Controls
             Margin = new Thickness(0, 10, 0, 0);
 
             DataContext = this;
+
+            CheckButton.Click += CheckButton_Click;
+            RemoveButton.Click += RemoveButton_Click;
+
+            Container.MouseEnter += Container_MouseEnter;
+            Container.MouseLeave += Container_MouseLeave;
+
+            DefaultCheckColor = CheckButton.Foreground;
+        }
+
+        private void Container_MouseLeave(object sender, MouseEventArgs e)
+        {
+            RemoveButton.Visibility = Visibility.Hidden;
+        }
+
+        private void Container_MouseEnter(object sender, MouseEventArgs e)
+        {
+            RemoveButton.Visibility = Visibility.Visible;
+        }
+
+        private void CheckButton_Click(object sender, RoutedEventArgs e)
+        {
+            //CheckClicked?.Invoke(this, e);
+            Checked = !Checked;
+            if (Checked)
+            {
+                Input.IsEnabled = false;
+                Opacity = 0.8;
+                BrushConverter bc = new BrushConverter();
+                CheckButton.Foreground = (Brush)bc.ConvertFrom("#3D3");
+            }
+            else
+            {
+                Input.IsEnabled = true;
+                Opacity = 1;
+                CheckButton.Foreground = DefaultCheckColor;
+            }
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            RemoveClicked?.Invoke(this, e);
         }
 
         public void Tab()

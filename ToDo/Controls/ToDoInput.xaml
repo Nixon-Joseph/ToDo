@@ -3,19 +3,52 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:local="clr-namespace:ToDo.Controls"
              mc:Ignorable="d">
 
     <Grid x:Name="Container">
-        <TextBox MaxLines="1" TextWrapping="NoWrap" Height="35" FontSize="20" Background="#333" x:Name="Input" Foreground="#DDD" BorderBrush="Black" BorderThickness="1">
+        <Grid.Background>
+            <SolidColorBrush Opacity="0.01" Color="Black"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Button Padding="10, 0" Margin="0, 0, 10, 0" x:Name="CheckButton">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="4"/>
+                </Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="BorderBrush" Value="Black" />
+                    <Setter Property="Background" Value="#333" />
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="Height" Value="35" />
+                </Style>
+            </Button.Resources>
+            <fa:FontAwesome Icon="Check" />
+        </Button>
+        <TextBox Grid.Column="1" MaxLines="1" x:Name="Input">
             <TextBox.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="4"/>
-                    <Setter Property="Padding" Value="5 0, 5, 5" />
+                </Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="BorderBrush" Value="Black" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="Background" Value="#333" />
+                    <Setter Property="Foreground" Value="#DDD" />
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="Height" Value="35" />
+                    <Setter Property="TextWrapping" Value="NoWrap" />
                 </Style>
             </TextBox.Resources>
         </TextBox>
-        <TextBlock x:Name="Placeholder" IsHitTestVisible="False" FontSize="20" TextWrapping="NoWrap" Text="{Binding PlaceholderText}" VerticalAlignment="Top" Margin="10, 0" Foreground="DarkGray">
+        <TextBlock Grid.Column="1" x:Name="Placeholder" IsHitTestVisible="False" FontSize="20" TextWrapping="NoWrap" Text="{Binding PlaceholderText}" VerticalAlignment="Top" Margin="10, 0" Foreground="DarkGray">
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -27,5 +60,21 @@
                 </Style>
             </TextBlock.Style>
         </TextBlock>
+        <Button Grid.Column="2" Visibility="Hidden" Padding="12, 0" Margin="10, 0, 0, 0" x:Name="RemoveButton">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="4"/>
+                </Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="BorderBrush" Value="Black" />
+                    <Setter Property="Background" Value="#333" />
+                    <Setter Property="Foreground" Value="#D33" />
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="Height" Value="35" />
+                </Style>
+            </Button.Resources>
+            <fa:FontAwesome Icon="Trash" />
+        </Button>
     </Grid>
 </UserControl>

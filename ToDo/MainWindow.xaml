@@ -10,7 +10,7 @@
         BorderThickness="0"
         AllowsTransparency="True"
         SizeToContent="WidthAndHeight"
-        Title="MainWindow" MinWidth="300">
+        Title="MainWindow" MinWidth="500">
     <Window.Background>
         <SolidColorBrush Opacity="0" Color="DarkGray"/>
     </Window.Background>

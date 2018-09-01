@@ -24,6 +24,7 @@ namespace ToDo
             InputStack.Children.Add(input);
 
             input.PreviewKeyDown += Input_KeyDown;
+            input.RemoveClicked += Input_RemoveClicked;
         }
 
         private void Input_KeyDown(object sender, KeyEventArgs e)
@@ -63,6 +64,24 @@ namespace ToDo
                         break;
                     default:
                         break;
+                }
+            }
+        }
+
+        private void Input_RemoveClicked(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToDoInput input)
+            {
+                if (Inputs.Count > 1)
+                {
+                    var index = Inputs.IndexOf(input);
+                    Inputs.RemoveAt(index);
+                    InputStack.Children.RemoveAt(index);
+                }
+                else
+                {
+                    input.Checked = false;
+                    input.Input.Text = "";
                 }
             }
         }
