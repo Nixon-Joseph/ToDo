@@ -48,7 +48,7 @@
                 </Style>
             </TextBox.Resources>
         </TextBox>
-        <TextBlock Grid.Column="1" x:Name="Placeholder" IsHitTestVisible="False" FontSize="20" TextWrapping="NoWrap" Text="{Binding PlaceholderText}" VerticalAlignment="Top" Margin="10, 0" Foreground="DarkGray">
+        <TextBlock Grid.Column="1" x:Name="Placeholder" IsHitTestVisible="False" Text="ToDo:" FontSize="20" TextWrapping="NoWrap" VerticalAlignment="Top" Margin="10, 0" Foreground="DarkGray">
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
                     <Setter Property="Visibility" Value="Collapsed"/>

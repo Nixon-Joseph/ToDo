@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ToDo.Models;
 
 namespace ToDo.Controls
 {
@@ -11,15 +14,12 @@ namespace ToDo.Controls
     /// </summary>
     public partial class ToDoInput : UserControl
     {
-        public static readonly DependencyProperty PlaceholderTextProperty = DependencyProperty.Register(nameof(PlaceholderText), typeof(string), typeof(ToDoInput), new PropertyMetadata("Input"));
-        public string PlaceholderText
-        {
-            get { return (string)GetValue(PlaceholderTextProperty); }
-            set { SetValue(PlaceholderTextProperty, value); }
-        }
+        private bool _Checked { get; set; } = false;
+        private string _Text { get; set; }
         public static readonly DependencyProperty CheckedProperty = DependencyProperty.Register(nameof(Checked), typeof(bool), typeof(ToDoInput), new PropertyMetadata(false, (o, e) => {
             if (o is ToDoInput _this && e.NewValue is bool newVal)
             {
+                _this._Checked = newVal;
                 if (newVal == true)
                 {
                     _this.Input.IsEnabled = false;
@@ -37,7 +37,7 @@ namespace ToDo.Controls
         }));
 
         public EventHandler<KeyEventArgs> InputKeyDown { get; set; }
-        //public EventHandler<RoutedEventArgs> CheckClicked { get; set; }
+        public EventHandler<RoutedEventArgs> CheckClicked { get; set; }
         public EventHandler<RoutedEventArgs> RemoveClicked { get; set; }
         public int TabSize { get; set; } = 0;
         public bool Checked
@@ -59,10 +59,14 @@ namespace ToDo.Controls
             UpdateTabMargins();
         }
 
-        public ToDoInput(string placeholder)
+        public ToDoInput(InputStorage store)
         {
             Init();
-            PlaceholderText = placeholder;
+            TabSize = store.TabSize;
+            Checked = store.Checked;
+            _Text = store.Text;
+            Input.Text = store.Text;
+            UpdateTabMargins();
         }
 
         private void Init()
@@ -70,6 +74,7 @@ namespace ToDo.Controls
             InitializeComponent();
 
             Input.KeyDown += Input_KeyDown;
+            Input.KeyUp += Input_KeyUp;
 
             Margin = new Thickness(0, 10, 0, 0);
 
@@ -82,6 +87,22 @@ namespace ToDo.Controls
             Container.MouseLeave += Container_MouseLeave;
 
             DefaultCheckColor = CheckButton.Foreground;
+            UpdateTabMargins();
+        }
+
+        private void Input_KeyUp(object sender, KeyEventArgs e)
+        {
+            _Text = Input.Text;
+        }
+
+        public override string ToString()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(new InputStorage()
+            {
+                TabSize = TabSize,
+                Checked = _Checked,
+                Text = _Text
+            });
         }
 
         private void Container_MouseLeave(object sender, MouseEventArgs e)
@@ -97,6 +118,7 @@ namespace ToDo.Controls
         private void CheckButton_Click(object sender, RoutedEventArgs e)
         {
             Checked = !Checked;
+            CheckClicked?.Invoke(this, e);
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
