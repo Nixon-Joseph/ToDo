@@ -160,7 +160,7 @@ namespace ToDo
                 else
                 {
                     input.Checked = false;
-                    input.Input.Text = "";
+                    input.ClearText();
                 }
                 InputsChanged?.Invoke(this, null);
             }

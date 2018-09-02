@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Linq;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -113,6 +111,12 @@ namespace ToDo.Controls
         private void Container_MouseEnter(object sender, MouseEventArgs e)
         {
             RemoveButton.Visibility = Visibility.Visible;
+        }
+
+        public void ClearText()
+        {
+            Input.Text = "";
+            _Text = "";
         }
 
         private void CheckButton_Click(object sender, RoutedEventArgs e)
